@@ -5,29 +5,28 @@ import static dev.JustRed23.Utils.Logger.*;
 import dev.JustRed23.Config.Config;
 import dev.JustRed23.Config.ConfigLoader;
 import dev.JustRed23.Config.ConfigWriter;
-import dev.JustRed23.Server.MinecraftServer;
 import dev.JustRed23.Server.Server;
 import dev.JustRed23.Utils.Logger;
+import dev.JustRed23.Version.Version;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarFile;
 
 public class ConsoleMain {
 
     private static File configDirectory;
+    public static final Version CURRENT_VERSION = new Version(0,1);
 
     public static void main(String[] args) {
         try {
             Logger.init();
 
-            String configPath = System.getProperty("user.dir") + File.separator + "config";
+            info("Starting BetterServerConsole " + CURRENT_VERSION.toString());
 
             debug("Current working directory is " + System.getProperty("user.dir"));
 
+            String configPath = System.getProperty("user.dir") + File.separator + "config";
             Config.setConfigLocation(configPath);
 
             configDirectory = new File(configPath);
