@@ -6,7 +6,7 @@ public abstract class Server {
 
     public String name;
     public String directory;
-    public JarFile serverJar;
+    public String serverJar;
 
     public void start(boolean restart) {}
 
