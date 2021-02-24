@@ -34,8 +34,10 @@ public class ConfigLoader extends Config {
             JsonArray serverList = jsonObject.getAsJsonArray("servers");
             List<Server> servers = new ArrayList<>();
 
-            if (serverList == null)
+            if (serverList == null) {
+                debug("There are no servers to load");
                 return new ArrayList<>();
+            }
 
             for (JsonElement jsonElement : serverList) {
                 JsonObject object = jsonElement.getAsJsonObject();
