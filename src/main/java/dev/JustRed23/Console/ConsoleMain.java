@@ -11,6 +11,9 @@ import dev.JustRed23.Version.Version;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConsoleMain {
@@ -20,7 +23,7 @@ public class ConsoleMain {
 
     public static void main(String[] args) {
         try {
-            Logger.init();
+            Logger.init(Arrays.asList(args).contains("-debug"));
 
             info("Starting BetterServerConsole " + CURRENT_VERSION.toString());
 
@@ -40,6 +43,8 @@ public class ConsoleMain {
 
             if (!new File(configDirectory + File.separator + "servers.json").exists())
                 ConfigWriter.writeBlankConfig("servers.json");
+        } catch (Exception e) {
+            exit(e);
         } finally {
             List<Server> servers = ConfigLoader.getServersFromConfig();
             servers.forEach(server -> debug("Added server " + server.name + " located at " + server.directory));

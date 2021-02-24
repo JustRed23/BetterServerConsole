@@ -14,9 +14,10 @@ import static dev.JustRed23.Utils.LogLevel.*;
 
 public class Logger {
 
-    private static boolean logAnsi;
+    private static boolean logAnsi, debug;
 
-    public static void init() {
+    public static void init(boolean debug) {
+        Logger.debug = debug;
         logAnsi = (System.getenv("LogAnsi") != null && Boolean.parseBoolean(System.getenv("LogAnsi")));
         if (!logAnsi)
             AnsiConsole.systemInstall();
@@ -93,6 +94,6 @@ public class Logger {
     }
 
     public static void debug(Object message) {
-        log(DEBUG, message);
+        if (debug) log(DEBUG, message);
     }
 }
