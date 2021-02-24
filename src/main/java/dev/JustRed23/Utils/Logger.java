@@ -3,6 +3,7 @@ package dev.JustRed23.Utils;
 import dev.JustRed23.Console.ConsoleMain;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -43,9 +44,10 @@ public class Logger {
         }
     }
 
-    private static void log(LogLevel logLevel, Object message, @Nullable Throwable t) {
-        log(logLevel, message);
-        if (t == null) return;
+    public static void logStackTrace(LogLevel logLevel, Throwable t) {
+        if (t == null)
+            return;
+
         if (!logAnsi) {
             Ansi ansi = ansi().bold();
             ansi.fg(logLevel.getColor());
@@ -61,6 +63,11 @@ public class Logger {
         }
     }
 
+    private static void log(LogLevel logLevel, Object message, Throwable t) {
+        log(logLevel, message);
+        logStackTrace(logLevel, t);
+    }
+
     public static void info(Object message) {
         log(INFO, message);
     }
@@ -73,7 +80,7 @@ public class Logger {
         error(message, null);
     }
 
-    public static void error(Object message, @Nullable Throwable t) {
+    public static void error(Object message, Throwable t) {
         log(ERROR, message, t);
     }
 
@@ -81,7 +88,7 @@ public class Logger {
         fatal(message, null);
     }
 
-    public static void fatal(Object message, @Nullable Throwable t) {
+    public static void fatal(Object message, Throwable t) {
         log(FATAL, message, t);
     }
 
