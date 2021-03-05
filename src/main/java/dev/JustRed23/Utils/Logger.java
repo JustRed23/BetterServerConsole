@@ -9,18 +9,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 
 import static org.fusesource.jansi.Ansi.*;
-import static dev.JustRed23.Utils.AnsiUtils.*;
 import static dev.JustRed23.Utils.LogLevel.*;
 
 public class Logger {
 
-    private static boolean logAnsi, debug;
+    private static boolean debug;
 
     public static void init(boolean debug) {
         Logger.debug = debug;
-        logAnsi = (System.getenv("LogAnsi") != null && Boolean.parseBoolean(System.getenv("LogAnsi")));
-        if (!logAnsi)
-            AnsiConsole.systemInstall();
+        AnsiConsole.systemInstall();
     }
 
     public static void exit() {
@@ -28,40 +25,23 @@ public class Logger {
     }
 
     public static void log(LogLevel logLevel, Object message) {
-        if (!logAnsi) {
-            Ansi ansi = ansi();
-            ansi.a("[");
-            if (logLevel.isBold()) ansi.bold();
-            ansi.fg(logLevel.getColor()).a(logLevel.name()).boldOff().reset().a("] ").fg(logLevel.getColor());
-            if (logLevel.isBold()) ansi.bold();
-            System.out.println(ansi.a(message).boldOff().reset());
-        } else {
-            AnsiUtils ansi = ansiUtils();
-            ansi.a("[");
-            if (logLevel.isBold()) ansi.bold();
-            ansi.fg(logLevel.getColor()).a(logLevel.name()).boldOff().reset().a("] ").fg(logLevel.getColor());
-            if (logLevel.isBold()) ansi.bold();
-            System.out.println(ansi.a(message).boldOff().reset());
-        }
+       Ansi ansi = ansi();
+       ansi.a("[");
+       if (logLevel.isBold()) ansi.bold();
+       ansi.fg(logLevel.getColor()).a(logLevel.name()).boldOff().reset().a("] ").fg(logLevel.getColor());
+       if (logLevel.isBold()) ansi.bold();
+       System.out.println(ansi.a(message).boldOff().reset());
     }
 
     public static void logStackTrace(LogLevel logLevel, Throwable t) {
         if (t == null)
             return;
 
-        if (!logAnsi) {
-            Ansi ansi = ansi().bold();
-            ansi.fg(logLevel.getColor());
-            ansi.a(t).newline();
-            Arrays.stream(t.getStackTrace()).forEach(stackTraceElement -> ansi.a("\tat " + stackTraceElement).newline());
-            System.out.println(ansi.reset());
-        } else {
-            AnsiUtils ansi = ansiUtils().bold();
-            ansi.fg(logLevel.getColor());
-            ansi.a(t).newline();
-            Arrays.stream(t.getStackTrace()).forEach(stackTraceElement -> ansi.a("\tat " + stackTraceElement).newline());
-            System.out.println(ansi.reset());
-        }
+        Ansi ansi = ansi().bold();
+        ansi.fg(logLevel.getColor());
+        ansi.a(t).newline();
+        Arrays.stream(t.getStackTrace()).forEach(stackTraceElement -> ansi.a("\tat " + stackTraceElement).newline());
+        System.out.println(ansi.reset());
     }
 
     private static void log(LogLevel logLevel, Object message, Throwable t) {
