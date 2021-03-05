@@ -16,8 +16,8 @@ public class Logger {
     private static boolean debug;
 
     public static void init(boolean debug) {
-        Logger.debug = debug;
         AnsiConsole.systemInstall();
+        Logger.debug = debug;
     }
 
     public static void exit() {
@@ -33,6 +33,15 @@ public class Logger {
        System.out.println(ansi.a(message).boldOff().reset());
     }
 
+    public static void log(Object message) {
+        System.out.println(message);
+    }
+
+    private static void log(LogLevel logLevel, Object message, Throwable t) {
+        log(logLevel, message);
+        logStackTrace(logLevel, t);
+    }
+
     public static void logStackTrace(LogLevel logLevel, Throwable t) {
         if (t == null)
             return;
@@ -42,11 +51,6 @@ public class Logger {
         ansi.a(t).newline();
         Arrays.stream(t.getStackTrace()).forEach(stackTraceElement -> ansi.a("\tat " + stackTraceElement).newline());
         System.out.println(ansi.reset());
-    }
-
-    private static void log(LogLevel logLevel, Object message, Throwable t) {
-        log(logLevel, message);
-        logStackTrace(logLevel, t);
     }
 
     public static void info(Object message) {

@@ -8,7 +8,9 @@ public enum LogLevel {
     WARN(Ansi.Color.YELLOW),
     ERROR(Ansi.Color.RED, true),
     FATAL(Ansi.Color.RED),
-    DEBUG(Ansi.Color.CYAN, true);
+    DEBUG(Ansi.Color.CYAN, true),
+    DEFAULT(Ansi.Color.DEFAULT);
+
 
     private Ansi.Color color;
     private boolean bold;
