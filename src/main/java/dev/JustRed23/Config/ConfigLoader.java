@@ -48,7 +48,6 @@ public class ConfigLoader extends Config {
                 servers.add(server);
             }
 
-            debug("Successfully created servers");
             return servers;
         } catch (Exception e) {
             error("An error occurred while creating servers", e);
